@@ -3,10 +3,10 @@ fastapi==0.104.1
 uvicorn[standard]==0.24.0
 
 # Machine Learning and Embeddings
-sentence-transformers==2.7.0
+sentence-transformers==2.2.2
 huggingface_hub==0.14.1
-transformers==4.40.2
-torch==2.3.1
+transformers==4.21.3
+torch==1.13.1
 faiss-cpu==1.7.4
 
 # HTTP requests
