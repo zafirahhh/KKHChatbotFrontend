@@ -1,30 +1,16 @@
-# FastAPI and server
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 
-# Machine Learning and Embeddings
 sentence-transformers==2.2.2
 huggingface_hub==0.14.1
-transformers==4.21.3
-torch==1.13.1
+# remove torch version pin
+torch
+
 faiss-cpu==1.7.4
-
-# HTTP requests
 requests==2.31.0
-
-# Data validation and serialization
 pydantic==2.5.0
-
-# Additional dependencies for production deployment
 python-multipart==0.0.6
 python-json-logger==2.0.7
-
-# CORS middleware (often needed for web frontends)
-# Already included in FastAPI, but explicitly listing version
 starlette==0.27.0
-
-# Optional: For better JSON handling
 orjson==3.9.10
-
-# Optional: For environment variable management
 python-dotenv==1.0.0
