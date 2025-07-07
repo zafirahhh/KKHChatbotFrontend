@@ -1,4 +1,4 @@
-# Medical Chatbot with Zephyr-7B-Beta + Nomic Embeddings + Quiz Feature
+# KKH Medical Chatbot with Zephyr-7B-Beta + Nomic Embeddings + Quiz Feature
 
 ## Objective
 Build a fully functional chatbot for nursing education that:
