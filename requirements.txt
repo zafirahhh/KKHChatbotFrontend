@@ -4,6 +4,7 @@ uvicorn[standard]==0.24.0
 
 # Machine Learning and Embeddings
 sentence-transformers==2.2.2
+huggingface_hub==0.19.4
 faiss-cpu==1.7.4
 
 # HTTP requests
