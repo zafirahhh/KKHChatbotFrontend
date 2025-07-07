@@ -1,7 +1,7 @@
-const BACKEND_URL_FINAL = "http://127.0.0.1:8000/ask";
-const QUIZ_URL_FINAL = "http://127.0.0.1:8000/quiz";
-const QUIZ_EVAL_URL_FINAL = "http://127.0.0.1:8000/quiz/evaluate";
-const SUGGEST_URL_FINAL = "http://127.0.0.1:8000/suggest";
+const BACKEND_URL_FINAL = "https://your-app-name.fly.dev/ask";
+const QUIZ_URL_FINAL = "https://your-app-name.fly.dev/quiz";
+const QUIZ_EVAL_URL_FINAL = "https://your-app-name.fly.dev/quiz/evaluate";
+const SUGGEST_URL_FINAL = "https://your-app-name.fly.dev/suggest";
 
 // Global AbortController for managing quiz fetch requests
 let quizFetchController = null;
