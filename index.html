@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>KKH Nursing Chatbot</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,600|Open+Sans:400,600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Hamburger menu for mobile -->
+  <button class="hamburger-menu" id="sidebarToggle" aria-label="Open sidebar">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <!-- Sidebar overlay for mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <header class="top-header">
+    <div class="logo-title">
+      <img src="css/KKH Logo.jpg" alt="KKH Logo" class="kkh-logo" />
+      <div class="header-text">
+        <h1>KK Women’s and Children’s Hospital</h1>
+        <p class="subtitle">Your 24/7 Nurse Assistant Bot</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container center-chat" style="display: flex; align-items: flex-start;">
+    <!-- Sidebar -->
+    <div id="sidebar">
+      <div class="group-title">▼ Chat Sessions</div>
+
+      <div class="subgroup-title">▼ General</div>
+      <div id="general-sessions" class="chat-list"></div>
+      <button class="new-session-btn" data-category="General">+ New Chat</button>
+      
+
+      <div class="subgroup-title">▼ Quiz</div>
+      <div id="quiz-sessions" class="chat-list"></div>
+      <button class="new-session-btn" data-category="Quiz">+ New Quiz</button>
+    </div>
+    <!-- Main Chat Area -->
+    <main class="main-chat" style="flex: 1 1 0; min-width: 0;">
+      <section class="chatbot-container" aria-label="Nursing Chatbot">
+        <div id="quiz-actions" style="display: none; margin: 1rem; text-align: center;">
+          <button id="restart-quiz-btn" class="sidebar-btn">🔄 Restart This Quiz</button>
+          <button id="clear-all-quizzes-btn" class="sidebar-btn" style="margin-left: 10px;">🧹 Clear All Quiz Sessions</button>
+        </div>
+        <div id="chat-window" class="chat-window" tabindex="0" aria-live="polite">
+          <!-- Messages will appear here -->
+        </div>
+        <form id="chat-form" autocomplete="off" class="chat-form">
+          <button type="button" id="mic-btn" aria-label="Record your question" title="Record your question">🎤</button>
+          <input type="text" id="user-input" placeholder="Type your question..." aria-label="Type your question" required />
+          <button type="submit" aria-label="Send">Send</button>
+        </form>
+      </section>    </main>
+  </div>
+
+  <script>
+    // Mobile sidebar toggle logic
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const toggle = document.getElementById('sidebarToggle');
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('open');
+      toggle.classList.add('open');
+      document.body.classList.add('sidebar-open');
+    }
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+      toggle.classList.remove('open');
+      document.body.classList.remove('sidebar-open');
+    }
+    toggle.addEventListener('click', () => {
+      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();    });
+    overlay.addEventListener('click', closeSidebar);
+  </script>
+  <script src="js/app.js"></script>
+</body>
+</html>

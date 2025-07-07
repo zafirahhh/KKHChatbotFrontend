@@ -1,0 +1,731 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:400,600|Open+Sans:400,600&display=swap');
+
+/* --- ChatGPT-like UI overhaul --- */
+:root {
+    --primary-blue: #23406e;
+    --accent-navy: #1a2a40;
+    --soft-gray: #f4f6fa;
+    --white: #fff;
+    --charcoal: #23272b;
+    --sidebar-bg: #e9ecf2;
+    --sidebar-btn: #e0e5ee;
+    --sidebar-btn-hover: #c7d0e1;
+    --user-msg-bg: #e6eef7;
+    --bot-msg-bg: #f3f6fa;
+    --shadow: 0 2px 12px rgba(35, 64, 110, 0.07);
+    --radius: 0.5rem;
+    --transition: 0.2s cubic-bezier(.4,0,.2,1);
+}
+
+* {
+    box-sizing: border-box;
+    border: none !important;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    background: #f7f7f8;
+    color: #23272b;
+    font-size: 1.05rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 0 1rem;
+    margin: 0;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+
+.top-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    background: var(--primary-blue);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(35, 64, 110, 0.07);
+    padding: 1.5rem 0 1.5rem 0 !important;
+    margin: 0;
+    margin-left: 340px; /* Align with main chat area - increased for new sidebar width */
+    border-bottom: none;
+    position: relative;
+    z-index: 100;
+    width: calc(100% - 340px); /* Adjust width to account for left margin - increased for new sidebar width */
+    min-height: 120px;
+    text-align: center;
+}
+
+.logo-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    width: 100%;
+    max-width: 900px; /* Match chatbot-container max-width */
+    margin: 0 auto; /* Center within the header like chatbot-container */
+}
+
+.kkh-logo {
+    height: 64px;
+    width: 64px;
+    margin: 0 auto;
+    display: block;
+    background: #fff;
+    border-radius: 16px;
+    padding: 0.3rem;
+    box-shadow: 0 2px 8px rgba(35,64,110,0.08);
+    flex-shrink: 0;
+}
+
+.header-text {
+    text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-text h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+    color: #fff;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #b0b8c9;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+}
+
+/* Layout: fix prompt at bottom, only chat scrolls */
+body, html {
+    height: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+.container.center-chat {
+    height: 100vh;
+    min-height: 0;
+}
+.main-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: stretch;
+    height: 100vh;
+    min-height: 0;
+    background: #f7f7f8;
+    padding: 0;
+    margin-left: 340px; /* Updated for new sidebar width */
+}
+.chatbot-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 1.5rem auto; /* Removed extra bottom margin */
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 32px rgba(35,64,110,0.10);
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    min-height: 0;
+}
+.chat-window {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 2.2rem 1.5rem 140px 1.5rem; /* Increased bottom padding to 140px to prevent overlap with input bar */
+    scroll-behavior: smooth;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    min-height: 0;
+    max-height: 100%;
+}
+
+/* Ensure scroll container maintains proper scrolling and content visibility */
+.chat-window::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.chat-window::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Ensure all chat content (including quiz blocks and explanations) have proper spacing */
+.quiz-block, .follow-up-container, .topic-selection-container {
+    margin-bottom: 1rem;
+}
+
+/* Ensure the last element in chat has adequate bottom margin */
+.chat-window > *:last-child {
+    margin-bottom: 0;
+}
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 0;
+}
+.message.user {
+    flex-direction: row-reverse;
+}
+.message.user .message-content {
+    background: #e6eef7;
+    color: #23406e;
+    align-self: flex-end;
+}
+.message-content {
+    background: #f3f6fa;
+    border-radius: 1.1rem;
+    padding: 1.1rem 1.4rem;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 85%;
+    word-break: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow: visible;
+    display: inline-block;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+.avatar {
+    font-size: 1.3rem;
+    background: #e0e5ee;
+    color: #23406e;
+    border-radius: 50%;
+    padding: 0.3rem 0.5rem;
+    min-width: 2.2rem;
+    min-height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-form {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background: #fff;
+    box-shadow: 0 -2px 12px rgba(35, 64, 110, 0.04);
+    border-top: 1px solid #e0e0e0;
+    border-radius: 0 0 1.2rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1.2rem 1.5rem;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* Ensure input bar is always visible for general sessions */
+.chat-form:not(.quiz-session) {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Ensure chatbot container allows sticky positioning */
+.chatbot-container {
+    position: relative;
+    overflow: visible;
+}
+
+/* Make sure chat window doesn't hide the input bar */
+.chat-window {
+    position: relative;
+    z-index: 1;
+}
+
+/* Adjust spacing when input bar is hidden in quiz sessions */
+.chat-window:has(+ .chat-form.quiz-session) {
+    padding-bottom: 140px; /* Consistent adequate padding to prevent content cutoff in quiz sessions */
+}
+
+/* Fallback for browsers that don't support :has() selector */
+.quiz-mode .chat-window {
+    padding-bottom: 140px; /* Consistent adequate padding to prevent content cutoff in quiz sessions */
+}
+
+/* Desktop quiz mode adjustments */
+@media (min-width: 601px) {
+    .quiz-mode .chatbot-container {
+        margin: 1.5rem auto; /* Normal margin when input bar is hidden */
+    }
+}
+
+/* Mobile responsiveness - ensure adequate padding on smaller screens */
+@media (max-width: 600px) {
+    .chat-window {
+        padding: 1.5rem 1rem 120px 1rem; /* Consistent bottom padding for mobile */
+    }
+    
+    .quiz-mode .chat-window,
+    .chat-window:has(+ .chat-form.quiz-session) {
+        padding-bottom: 120px; /* Consistent adequate padding for quiz sessions on mobile */
+    }
+}
+
+/* Hide chat form in quiz sessions */
+.chat-form.quiz-session {
+    display: none !important;
+}
+
+#mic-btn {
+    background: #e0e5ee;
+    color: #23406e;
+    border: 1px solid #c7d0e1;
+    border-radius: 50%;
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.1rem;
+}
+#mic-btn.recording {
+    background: #23406e;
+    color: #fff;
+}
+
+#user-input {
+    flex: 1;
+    padding: 1rem 1.2rem;
+    border-radius: 1.2rem;
+    border: 1px solid #c7d0e1;
+    font-size: 1.05rem;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+button[type="submit"] {
+    background: #23406e;
+    color: #fff;
+    border: none;
+    border-radius: 1.2rem;
+    padding: 0.9rem 1.6rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+button[type="submit"]:hover {
+    background: #1a2a40;
+}
+
+/* Sidebar: ChatGPT-like fixed positioning */
+#sidebar {
+  background-color: #e9eff8;
+  padding: 20px 18px;
+  width: 340px; /* Increased width for better content fit */
+  font-family: 'Segoe UI', sans-serif;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Higher z-index to ensure it's not hidden behind header */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Enable vertical scrolling when content overflows */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  scrollbar-gutter: stable;
+  border-right: 1px solid #d8dee9;
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+/* Custom scrollbar styling for sidebar */
+#sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+  background: #c7d0e1;
+  border-radius: 3px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+  background: #b8c3d8;
+}
+
+/* Firefox scrollbar styling */
+#sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: #c7d0e1 transparent;
+}
+
+/* Smooth scrolling for sidebar */
+#sidebar {
+  scroll-behavior: smooth;
+}
+
+/* Ensure proper spacing for scrollable content */
+#sidebar .group-title:first-child {
+  margin-top: 0;
+}
+
+/* Add bottom padding to ensure last item is fully visible when scrolling */
+#sidebar .new-session-btn:last-child {
+  margin-bottom: 20px;
+}
+
+/* Ensure sidebar content doesn't get cut off */
+#sidebar::after {
+  content: '';
+  display: block;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Section headers */
+.nav-title {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.group-title, .subgroup-title {
+  font-weight: bold;
+  margin: 12px 0 6px;
+  color: #2c3e50;
+  font-size: 15px;
+}
+
+/* Indent subgroup chats */
+.chat-list {
+  margin-left: 16px;
+}
+
+/* Chat session buttons */
+.chat-session {
+  background: #f3f6fa;
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Highlighted/Selected session */
+.chat-session.active {
+   background-color: #cce0f5 !important;
+  border-left: 4px solid #004c99;
+  font-weight: 600;
+  color: #004c99;
+  box-shadow: 0 2px 8px rgba(0, 76, 153, 0.15);
+}
+
+/* Hover effect for chat sessions */
+.chat-session:hover:not(.active) {
+  background-color: #e8f1fb;
+  transform: translateX(2px);
+  transition: all 0.2s ease;
+}
+
+/* Normal plain chat text (unselected) */
+.chat-name {
+  margin-left: 18px;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+/* Add buttons */
+.new-session-btn {
+  background-color: white;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 14px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
+.new-session-btn:last-child {
+  margin-bottom: 20px;
+}
+
+.new-session-btn:hover {
+  background-color: #e8ecf4;
+}
+
+.sidebar {
+    min-width: 280px;
+    max-width: 320px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid #e0e0e0;
+    box-shadow: none;
+    padding: 0.5rem 0.3rem 0.5rem 0.3rem;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+/* Remove the sidebar title (assume it's a direct child or h2/h3, hide it) */
+.sidebar > h2, .sidebar > h3, .sidebar > .sidebar-title {
+    display: none !important;
+}
+
+.sidebar-actions {
+    margin-bottom: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.sidebar-btn {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.sidebar-btn {
+    margin-bottom: 0.1rem;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.97rem;
+    border-radius: 0.3rem;
+    font-weight: 700 !important;
+}
+
+.nav-title {
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.nav-group {
+  margin-bottom: 1.5rem;
+}
+
+.group-title,
+.subgroup-title {
+  font-weight: bold;
+  margin: 0.5rem 0 0.25rem;
+  color: #333;
+}
+
+.sidebar-nav {
+    margin-bottom: 0.3rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.nav-label {
+    margin-bottom: 0.2rem;
+    margin-top: 0.05rem;
+    font-size: 0.97rem;
+}
+
+.nav-static {
+    font-size: 0.96rem;
+    font-weight: 600;
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.3rem;
+    margin-bottom: 0.2rem;
+}
+
+.sidebar-section {
+    margin-top: 0.2rem;
+    padding: 0.3rem 0.4rem;
+    border-radius: 0.3rem;
+}
+
+.sidebar-list {
+    font-size: 0.95rem;
+    margin-left: 0.1rem;
+    margin-bottom: 0.1rem;
+    gap: 0.1rem;
+}
+
+/* ChatGPT-style sidebar for sessions */
+.chat-session-row {
+  transition: background 0.15s;
+}
+.chat-session-row.active {
+  background: #f3f3f5 !important;
+  font-weight: bold;
+}
+.session-menu {
+  font-size: 15px;
+  min-width: 170px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border: 1px solid #e0e0e0;
+  padding: 8px 0;
+}
+.session-menu-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+}
+.session-menu-item:hover {
+  background: #f7f7fa;
+}
+.session-menu-divider {
+  border-top: 1px solid #eee;
+  margin: 4px 0;
+}
+.add-session-btn {
+  width: 100%;
+  margin: 10px 0 0 0;
+  padding: 10px 0;
+  background: #f3f3f5;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.add-session-btn:hover {
+  background: #ececf1;
+}
+.session-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1 1 auto;
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.quiz-option {
+  display: block;
+  margin: 6px 0;
+  padding: 8px 12px;
+  background: #f3f6fb;
+  border: 1px solid #cfdcec;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  text-align: left;
+}
+.quiz-option:hover {
+  background: #e6efff;
+}
+.quiz-block {
+  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #f8faff;
+}
+
+.chat-session {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0f2f7;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.chat-menu {
+  position: relative;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.chat-dropdown {
+  display: none;
+  position: absolute;
+  top: 22px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 10;
+  min-width: 100px;
+}
+
+.chat-dropdown div {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.chat-dropdown div:hover {
+  background: #f0f0f0;
+}
+
+.chat-menu:hover .chat-dropdown {
+  display: block;
+}
+
+/* Hide mobile elements since we removed mobile styles */
+.hamburger-menu,
+.sidebar-overlay {
+    display: none !important;
+}
+
+
+
+
+
+
+
+
+
+
+
