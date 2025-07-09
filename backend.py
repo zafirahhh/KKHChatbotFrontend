@@ -95,7 +95,7 @@ def ask_question(request: AskRequest):
     )
 
     try:
-        response = requests.post("http://localhost:1234/v1/chat/completions", json={
+        response = requests.post("http://100.96.212.48:1234/v1/chat/completions", json={
             "model": "huggingfaceh4__zephyr-7b-beta",
             "messages": [
                 {"role": "system", "content": "You are a helpful medical assistant."},
@@ -319,7 +319,7 @@ def generate_quiz(n: int = 10, prompt: str = "", topic: str = "General", session
 def generate_with_model(query: str):
     try:
         response = requests.post(
-            "http://localhost:1234/v1/chat/completions",
+            "http://100.96.212.48:1234/v1/chat/completions",
             json={
                 "model": "huggingfaceh4__zephyr-7b-beta",
                 "messages": [
